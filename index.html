@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h1>Smart Attendance System</h1>
+    <form id="registerForm">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="rollNo" placeholder="Roll No" required>
+        <button type="submit">Register</button>
+    </form>
+    <button id="markAttendance">Mark Attendance</button>
+    <script>
+            document.getElementById('registerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const rollNo = document.getElementById('rollNo').value;
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, roll_no: rollNo })
+                });
+                alert((await response.json()).message);
+            });
+        
+            document.getElementById('markAttendance').addEventListener('click', async () => {
+                const response = await fetch('/mark_attendance', { method: 'POST' });
+                alert((await response.json()).message);
+            });
+        
+    </script>
+</body>
+</html>
